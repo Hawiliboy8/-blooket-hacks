@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sol's RNG Aura Helper</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0f1117;
+      --panel: #181c25;
+      --panel-2: #202635;
+      --accent: #66d9ef;
+      --text: #e7eaf2;
+      --muted: #9ca7bf;
+      --ok: #7ee787;
+      --warn: #ffb86b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: radial-gradient(circle at top, #1a2030, var(--bg) 45%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .app {
+      width: min(1100px, 100%);
+      background: var(--panel);
+      border: 1px solid #2b3245;
+      border-radius: 14px;
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      overflow: hidden;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+    }
+
+    .sidebar {
+      background: linear-gradient(180deg, #1a2230, var(--panel));
+      padding: 18px;
+      border-right: 1px solid #2b3245;
+    }
+
+    .content {
+      padding: 20px;
+      display: grid;
+      gap: 16px;
+      background: linear-gradient(180deg, #171b26, #141822);
+    }
+
+    h1 {
+      font-size: 1.15rem;
+      margin: 0 0 6px;
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+
+    .field { margin-bottom: 12px; }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      border: 1px solid #36415a;
+      background: var(--panel-2);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 0.92rem;
+    }
+
+    .btn {
+      width: 100%;
+      margin-top: 8px;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      color: #081018;
+      background: linear-gradient(90deg, #50d8ff, #8be9a8);
+      cursor: pointer;
+    }
+
+    .card {
+      background: #1d2331;
+      border: 1px solid #303851;
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .metric {
+      background: #171c27;
+      border: 1px solid #2b334a;
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    .metric .k {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-bottom: 5px;
+    }
+
+    .metric .v {
+      font-size: 1.02rem;
+      font-weight: 700;
+    }
+
+    .hint { color: var(--warn); font-size: 0.82rem; }
+    .ok { color: var(--ok); }
+
+    @media (max-width: 870px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { border-right: 0; border-bottom: 1px solid #2b3245; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <h1>Sol's RNG Aura Helper</h1>
+      <div class="sub">Safe tool for planning aura hunts (odds + grind time). No exploit features.</div>
+
+      <div class="field">
+        <label for="aura">Aura preset</label>
+        <select id="aura"></select>
+      </div>
+
+      <div class="field">
+        <label for="denominator">Base odds (1 in N)</label>
+        <input id="denominator" type="number" min="2" step="1" value="50000" />
+      </div>
+
+      <div class="field">
+        <label for="luck">Effective luck multiplier</label>
+        <input id="luck" type="number" min="0.1" step="0.1" value="1" />
+      </div>
+
+      <div class="field">
+        <label for="rpm">Rolls per minute</label>
+        <input id="rpm" type="number" min="1" step="1" value="60" />
+      </div>
+
+      <div class="field">
+        <label for="target">Target copies</label>
+        <input id="target" type="number" min="1" step="1" value="1" />
+      </div>
+
+      <div class="field">
+        <label for="confidence">Planning confidence (%)</label>
+        <input id="confidence" type="number" min="50" max="99.9" step="0.1" value="90" />
+      </div>
+
+      <button class="btn" id="calc">Calculate Plan</button>
+    </aside>
+
+    <main class="content">
+      <section class="card">
+        <h2>Probability Calculator</h2>
+        <div class="grid">
+          <div class="metric"><div class="k">Per-roll chance</div><div class="v" id="perRoll">-</div></div>
+          <div class="metric"><div class="k">Expected rolls for target</div><div class="v" id="expRolls">-</div></div>
+          <div class="metric"><div class="k">Expected time</div><div class="v" id="expTime">-</div></div>
+          <div class="metric"><div class="k">Chance within 1 hour</div><div class="v" id="hourChance">-</div></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Grind Planner</h2>
+        <div class="grid">
+          <div class="metric"><div class="k">Rolls for confidence goal</div><div class="v" id="goalRolls">-</div></div>
+          <div class="metric"><div class="k">Hours for confidence goal</div><div class="v" id="goalHours">-</div></div>
+          <div class="metric"><div class="k">Sessions (2h each)</div><div class="v" id="sessions">-</div></div>
+          <div class="metric"><div class="k">Suggested focus</div><div class="v" id="focus">-</div></div>
+        </div>
+        <p class="hint" id="note"></p>
+      </section>
+
+      <section class="card">
+        <h2>How to use</h2>
+        <ul>
+          <li>Select an aura preset or enter custom odds.</li>
+          <li>Set your real rolls/minute and current luck setup.</li>
+          <li>Use the confidence goal to estimate practical grind milestones.</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const presets = [
+      { name: "Custom", denom: 50000 },
+      { name: "Rare-ish (1 in 25,000)", denom: 25000 },
+      { name: "Legend-tier (1 in 250,000)", denom: 250000 },
+      { name: "Ultra-tier (1 in 1,000,000)", denom: 1000000 },
+      { name: "Chase-tier (1 in 10,000,000)", denom: 10000000 }
+    ];
+
+    const auraEl = document.getElementById("aura");
+    const denominatorEl = document.getElementById("denominator");
+    const luckEl = document.getElementById("luck");
+    const rpmEl = document.getElementById("rpm");
+    const targetEl = document.getElementById("target");
+    const confidenceEl = document.getElementById("confidence");
+
+    const out = {
+      perRoll: document.getElementById("perRoll"),
+      expRolls: document.getElementById("expRolls"),
+      expTime: document.getElementById("expTime"),
+      hourChance: document.getElementById("hourChance"),
+      goalRolls: document.getElementById("goalRolls"),
+      goalHours: document.getElementById("goalHours"),
+      sessions: document.getElementById("sessions"),
+      focus: document.getElementById("focus"),
+      note: document.getElementById("note")
+    };
+
+    function fmtInt(n) {
+      return new Intl.NumberFormat().format(Math.round(n));
+    }
+
+    function fmtPct(p) {
+      return (p * 100).toFixed(p < 0.01 ? 4 : 2) + "%";
+    }
+
+    function fmtHours(h) {
+      if (!Number.isFinite(h)) return "∞";
+      if (h < 1) return (h * 60).toFixed(1) + " min";
+      if (h < 24) return h.toFixed(2) + " h";
+      return (h / 24).toFixed(2) + " d";
+    }
+
+    function rollsForConfidence(p, target, confidence) {
+      if (p <= 0 || target < 1) return Infinity;
+      const cap = 5_000_000;
+      const dist = Array(target).fill(0);
+      dist[0] = 1;
+      for (let n = 1; n <= cap; n++) {
+        for (let s = target - 1; s >= 1; s--) {
+          dist[s] = dist[s] * (1 - p) + dist[s - 1] * p;
+        }
+        dist[0] = dist[0] * (1 - p);
+
+        const failProb = dist.reduce((a, b) => a + b, 0);
+        const successProb = 1 - failProb;
+        if (successProb >= confidence) return n;
+      }
+      return Infinity;
+    }
+
+    function plan() {
+      const denominator = Math.max(2, Number(denominatorEl.value));
+      const luck = Math.max(0.1, Number(luckEl.value));
+      const rpm = Math.max(1, Number(rpmEl.value));
+      const target = Math.max(1, Math.floor(Number(targetEl.value)));
+      const confidence = Math.min(0.999, Math.max(0.5, Number(confidenceEl.value) / 100));
+
+      const p = Math.min(1, luck / denominator);
+      const expectedRolls = target / p;
+      const expectedHours = expectedRolls / rpm / 60;
+      const oneHourRolls = rpm * 60;
+      const oneHourChance = 1 - Math.pow(1 - p, oneHourRolls);
+
+      const goalRolls = rollsForConfidence(p, target, confidence);
+      const goalHours = goalRolls / rpm / 60;
+      const sessions = goalHours / 2;
+
+      out.perRoll.textContent = `1 in ${fmtInt(1 / p)} (${fmtPct(p)})`;
+      out.expRolls.textContent = fmtInt(expectedRolls);
+      out.expTime.textContent = fmtHours(expectedHours);
+      out.hourChance.textContent = fmtPct(oneHourChance);
+
+      out.goalRolls.textContent = Number.isFinite(goalRolls) ? fmtInt(goalRolls) : "Too high";
+      out.goalHours.textContent = fmtHours(goalHours);
+      out.sessions.textContent = Number.isFinite(sessions) ? sessions.toFixed(1) : "Too many";
+
+      if (expectedHours < 2) {
+        out.focus.textContent = "Fast farm";
+        out.focus.className = "v ok";
+      } else if (expectedHours < 20) {
+        out.focus.textContent = "Medium grind";
+        out.focus.className = "v";
+      } else {
+        out.focus.textContent = "Long-term target";
+        out.focus.className = "v";
+      }
+
+      out.note.textContent = Number.isFinite(goalRolls)
+        ? `To reach ${(confidence * 100).toFixed(1)}% confidence, plan about ${fmtHours(goalHours)} of active rolling at your current setup.`
+        : "Confidence target exceeds built-in calculator cap. Try higher luck or lower target copies.";
+    }
+
+    presets.forEach((preset, i) => {
+      const option = document.createElement("option");
+      option.value = preset.denom;
+      option.textContent = preset.name;
+      option.selected = i === 0;
+      auraEl.appendChild(option);
+    });
+
+    auraEl.addEventListener("change", () => {
+      denominatorEl.value = auraEl.value;
+      plan();
+    });
+
+    document.getElementById("calc").addEventListener("click", plan);
+    [denominatorEl, luckEl, rpmEl, targetEl, confidenceEl].forEach((el) => {
+      el.addEventListener("input", plan);
+    });
+
+    plan();
+  </script>
+</body>
+</html>
