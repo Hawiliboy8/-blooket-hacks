@@ -32,3 +32,7 @@ Use this only if you prefer URL mode (`127.0.0.1`).
 - Rolls per minute
 - Target copies
 - Confidence (%)
+
+## Better Windows launcher
+- `open-sols-helper.bat` now calls `run-sols-helper.ps1` for diagnostics.
+- You can run `run-sols-helper.ps1` directly to see detailed errors.

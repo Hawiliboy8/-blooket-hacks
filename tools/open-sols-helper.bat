@@ -2,16 +2,22 @@
 setlocal
 
 set "SCRIPT_DIR=%~dp0"
+set "PS1_FILE=%SCRIPT_DIR%run-sols-helper.ps1"
 set "HTML_FILE=%SCRIPT_DIR%sols-rng-helper.html"
+
+if exist "%PS1_FILE%" (
+  powershell -NoProfile -ExecutionPolicy Bypass -File "%PS1_FILE%"
+  exit /b %errorlevel%
+)
 
 if not exist "%HTML_FILE%" (
   echo Could not find "%HTML_FILE%".
-  echo Make sure this BAT file is in the same folder as sols-rng-helper.html.
   pause
   exit /b 1
 )
 
-echo Opening Sol's RNG Aura Helper in your default browser...
+echo PowerShell launcher missing. Opening HTML directly...
 start "" "%HTML_FILE%"
+pause
 
 endlocal

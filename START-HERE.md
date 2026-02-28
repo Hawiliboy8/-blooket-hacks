@@ -5,12 +5,13 @@ If you're lost, follow this exact checklist.
 ## Option A (Easiest on Windows)
 1. Open your repo folder.
 2. Open `tools`.
-3. Double-click `open-sols-helper.bat`.
-4. Done — helper should open in your browser.
+3. Right-click `open-sols-helper.bat` -> **Run as administrator**.
+4. A diagnostic window will tell you what it found (`py`, `python`, or fallback mode).
+5. Your browser should open the helper page automatically.
 
-If nothing opens:
-- Right-click `open-sols-helper.bat` and choose **Run as administrator**.
-- Make sure `open-sols-helper.bat` and `sols-rng-helper.html` are in the same `tools` folder.
+If the browser still does not open:
+- Run `tools\run-sols-helper.ps1` directly in PowerShell.
+- Confirm `sols-rng-helper.html` exists in the same `tools` folder.
 
 ## Option B (Server method)
 1. Open PowerShell (Windows) or Terminal (Mac/Linux).
