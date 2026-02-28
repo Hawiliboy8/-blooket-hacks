@@ -6,7 +6,7 @@ If you are new, follow this exactly.
 - Use a **Windows laptop/PC**.
 - Use **Chrome** or **Edge** browser.
 
-## 0) If you do NOT have a `-blooket-hacks` folder yet
+## 0) If you do NOT have a `sols-helper` folder yet
 That is okay. You need to download the project first.
 
 ### Option A (easiest): Download ZIP from GitHub
@@ -16,23 +16,23 @@ That is okay. You need to download the project first.
 4. Open your **Downloads** folder.
 5. Right-click the ZIP file -> **Extract All...**.
 6. Open the extracted folder.
-7. If the extracted folder has a long name like `repo-main`, you can rename it to `-blooket-hacks`.
+7. If the extracted folder has a long name like `repo-main`, you can rename it to `sols-helper`.
 
 ### Option B: Clone with Git (if you already use Git)
 1. Open PowerShell.
 2. Go to Downloads:
    - `cd $HOME\Downloads`
 3. Clone the repo URL:
-   - `git clone <PASTE-REPO-URL-HERE> -blooket-hacks`
+   - `git clone <PASTE-REPO-URL-HERE> sols-helper`
 
 ## 1) Find the repo folder
 1. Press `Windows` key.
 2. Type `File Explorer` and open it.
 3. Click **Downloads**.
-4. Open folder named **`-blooket-hacks`**.
+4. Open folder named **`sols-helper`**.
 
 ## 2) Open the helper (easy button)
-1. Inside `-blooket-hacks`, find file **`OPEN-ME-FIRST-WINDOWS.bat`**.
+1. Inside `sols-helper`, find file **`OPEN-ME-FIRST-WINDOWS.bat`**.
 2. Double-click it.
 3. Wait 5–10 seconds.
 4. Browser should open helper page.
@@ -41,7 +41,7 @@ That is okay. You need to download the project first.
 If a black window opens, **do not close it** while using the helper.
 
 ## 4) If nothing happens
-1. Inside `-blooket-hacks`, open folder `tools`.
+1. Inside `sols-helper`, open folder `tools`.
 2. Right-click `run-sols-helper.ps1`.
 3. Click **Run with PowerShell**.
 4. Read the message it shows.
@@ -52,7 +52,7 @@ If a black window opens, **do not close it** while using the helper.
 3. Run `OPEN-ME-FIRST-WINDOWS.bat` again.
 
 ## 6) Manual fallback (only if needed)
-1. In File Explorer, open `-blooket-hacks`.
+1. In File Explorer, open `sols-helper`.
 2. In the top bar, type `powershell` and press Enter.
 3. Run this command:
    - `py -m http.server 8000`

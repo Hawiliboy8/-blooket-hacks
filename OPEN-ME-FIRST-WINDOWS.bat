@@ -8,7 +8,7 @@ echo Opening Sol's RNG Helper...
 
 if not exist "%TOOLS_LAUNCHER%" (
   echo ERROR: Could not find "%TOOLS_LAUNCHER%"
-  echo Make sure this file is inside the -blooket-hacks folder.
+  echo Make sure this file is inside the sols-helper folder.
   pause
   exit /b 1
 )
