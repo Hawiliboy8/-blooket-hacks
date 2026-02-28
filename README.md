@@ -1,4 +1,40 @@
-# highfl-blooket-hacks
-REAL Hacks that ACTUALLY WORK
+# Sol's RNG Helper
 
-*Some of these hacks are not mine!* Some are mine, but it is a collection of working hacks from people such as Kristheamazing2,rxzyx and codemaster123puppy. I did make some of them myself such as Monster Brawl and Blook Rush and a few more.
+This repository now focuses on a simple **Sol's RNG Aura Helper** web tool.
+
+## What it is
+A safe planning app (no exploit features) to estimate:
+- aura odds,
+- expected grind time,
+- confidence-based grind targets.
+
+Main files:
+- `tools/sols-rng-helper.html`
+- `tools/sols-rng-helper.js`
+
+## Don’t have the folder yet?
+Download the repo first (GitHub **Code -> Download ZIP**), extract it, and (optional) rename the extracted folder to `sols-helper`.
+
+## New to computers? Start here
+Open `START-HERE.md` and follow it line-by-line.
+
+## Fast start (Windows)
+1. Open your `sols-helper` folder in File Explorer.
+2. Double-click `OPEN-ME-FIRST-WINDOWS.bat`.
+3. Browser should open the helper.
+
+## Backup start (Windows)
+1. Open `tools` folder.
+2. Double-click `open-sols-helper.bat`.
+
+## Manual URL mode (any system)
+1. Open terminal in the `sols-helper` folder.
+2. Run:
+   - `python3 -m http.server 8000`
+   - or on Windows: `py -m http.server 8000`
+3. Open:
+   - `http://127.0.0.1:8000/tools/sols-rng-helper.html`
+
+## If page does not open
+- Server is likely not running.
+- Run `py -m http.server 8000` (Windows) or `python3 -m http.server 8000` (Mac/Linux).
