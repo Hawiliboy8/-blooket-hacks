@@ -13,11 +13,15 @@ Main files:
 - `tools/sols-rng-helper.js`
 
 ## Super easy start (Windows)
-1. Open the `tools` folder.
-2. Double-click `open-sols-helper.bat`.
-3. Your browser opens the helper.
+1. Open this repo folder in File Explorer.
+2. Double-click `OPEN-ME-FIRST-WINDOWS.bat`.
+3. Your browser should open the helper.
 
-## Super easy start (any system)
+## Backup Windows start
+1. Open `tools` folder.
+2. Double-click `open-sols-helper.bat`.
+
+## Any system (manual URL mode)
 1. Open terminal in this repo.
 2. Run:
    - `python3 -m http.server 8000`
@@ -30,4 +34,4 @@ Main files:
 - Start it with `py -m http.server 8000` (Windows) or `python3 -m http.server 8000` (Mac/Linux).
 
 ## Extra help
-See `START-HERE.md` for a very beginner-friendly checklist.
+See `START-HERE.md` for the easiest step-by-step walkthrough.

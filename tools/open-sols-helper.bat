@@ -7,7 +7,14 @@ set "HTML_FILE=%SCRIPT_DIR%sols-rng-helper.html"
 
 if exist "%PS1_FILE%" (
   powershell -NoProfile -ExecutionPolicy Bypass -File "%PS1_FILE%"
-  exit /b %errorlevel%
+  set "ERR=%errorlevel%"
+  if not "%ERR%"=="0" (
+    echo.
+    echo PowerShell launcher returned code %ERR%.
+    echo Fallback: opening HTML directly...
+    if exist "%HTML_FILE%" start "" "%HTML_FILE%"
+  )
+  exit /b %ERR%
 )
 
 if not exist "%HTML_FILE%" (
@@ -18,6 +25,6 @@ if not exist "%HTML_FILE%" (
 
 echo PowerShell launcher missing. Opening HTML directly...
 start "" "%HTML_FILE%"
-pause
+exit /b 0
 
 endlocal

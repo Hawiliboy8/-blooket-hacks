@@ -1,33 +1,40 @@
-# START HERE (Very Easy Steps)
+# START HERE (VERY SIMPLE)
 
-If you're lost, follow this exact checklist.
+If you feel lost, use this exact path.
 
-## Option A (Easiest on Windows)
-1. Open your repo folder.
-2. Open `tools`.
-3. Right-click `open-sols-helper.bat` -> **Run as administrator**.
-4. A diagnostic window will tell you what it found (`py`, `python`, or fallback mode).
-5. Your browser should open the helper page automatically.
+## What app should I use?
+Use **Google Chrome** (or Edge). This helper is a web page.
 
-If the browser still does not open:
-- Run `tools\run-sols-helper.ps1` directly in PowerShell.
-- Confirm `sols-rng-helper.html` exists in the same `tools` folder.
+## Where is the `tools` folder?
+Inside your repo folder:
+- `-blooket-hacks\tools\`
 
-## Option B (Server method)
-1. Open PowerShell (Windows) or Terminal (Mac/Linux).
-2. Change directory into your real repo folder path.
-   - Example on Windows:
-     - `cd C:\Users\<YourName>\Downloads\-blooket-hacks`
-3. Start server:
-   - Windows: `py -m http.server 8000`
-   - Mac/Linux: `python3 -m http.server 8000`
-4. Open browser to:
+So the launcher file is here:
+- `-blooket-hacks\tools\open-sols-helper.bat`
+
+## Easiest method (Windows)
+1. Open File Explorer.
+2. Open your repo folder `-blooket-hacks`.
+3. Double-click **`OPEN-ME-FIRST-WINDOWS.bat`** (in the repo root).
+4. Wait for Chrome/Edge to open.
+5. If a black window says "Press Enter when done", leave it open while using the helper.
+
+## If nothing opens
+Do this exact fallback:
+1. Open File Explorer -> open `-blooket-hacks\tools\`.
+2. Right-click `run-sols-helper.ps1` -> **Run with PowerShell**.
+3. Read the message in that window.
+4. If it says Python not found, install Python from python.org, then run again.
+
+## Manual method (only if needed)
+1. Open PowerShell in the repo folder.
+2. Run:
+   - `py -m http.server 8000`
+3. Open this URL in Chrome:
    - `http://127.0.0.1:8000/tools/sols-rng-helper.html`
 
-## Common errors
-- `ERR_CONNECTION_REFUSED`
-  - Fix: server is not running. Start the server command above.
-- `python not found`
-  - Fix on Windows: use `py` instead of `python`.
-- `path does not exist`
-  - Fix: use your own real folder path, not `/workspace/...`.
+## Common errors (plain English)
+- `ERR_CONNECTION_REFUSED` = server is not running.
+- `python not found` = install Python or use `py` command.
+- `cd /workspace/...` fails on Windows = wrong path (Linux-only path).
+
